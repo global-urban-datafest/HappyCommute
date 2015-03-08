@@ -9,44 +9,62 @@
 #include "neopixel.h"
 // IMPORTANT: Set pixel COUNT, PIN and TYPE
 #define PIXEL_PIN A1
-#define PIXEL_COUNT 8
+#define PIXEL_COUNT 132
 #define PIXEL_TYPE WS2812B
 
-#define R1[450] {0, 1}
-#define R2[450] {0, 1}
-#define R3[450] {0, 1}
+#define R1 13
+#define R2 18
+#define R3 20
 
-#define MR[450] {0, 1}
-#define ML[450] {0, 1}
+#define MR 15
+#define ML 15
 
-#define L1[450] {0, 1}
-#define L2[450] {0, 1}
-#define L3[450] {0, 1}
+#define L1 20
+#define L2 18
+#define L3 13
 
 int color1;
 int color2;
 int color3;
 int color4;
 
+int point[7];
+
+int test(String cmd);
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 void setup()
 {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
+  Spark.function("tests", test);
   Spark.variable("color1", &color1, INT);
-  Spark.variable("color2", &color2, INT);
-  Spark.variable("color3", &color3, INT);
-  Spark.variable("color4", &color4, INT);
-  Spark.function("right", right);
-  Spark.function("left", left);
-  Spark.function("reg", reg);
-  Spark.function("stop", stop);
+  color1=4;
+
+}
+int test(String cmd){
+  return 6; 
+}
+
+void points(int start, int count){
+  point[0]=start;
+  point[1]=start+(count*1/6);
+  point[2]=start+(count*2/6);
+  point[3]=start+(count*3/6);
+  point[4]=start+(count*4/6);
+  point[5]=start+(count*5/6);
+  point[6]=start+(count*6/6);
 }
 void loop()
 {
-  strip.setBrightness(100);
+  strip.setBrightness(50);
+  //r(1000);
   rainbow(20);
+  right(1000);
+  stop(1000);
+  left(1000);
+  reg(1000);
+
 }
 void rainbow(uint8_t wait) {
   uint16_t i, j;
@@ -57,48 +75,302 @@ void rainbow(uint8_t wait) {
     strip.show();
     delay(wait);
   }
+  for(i=0; i<strip.numPixels(); i++) {
+    strip.setPixelColor(i, 0);
+  }
+  strip.show();
+  delay(wait);
 }
 // Input a value 0 to 255 to get a color value.
 // The colours are a transition r - g - b - back to r.
 uint32_t Wheel(byte WheelPos) {
   if(WheelPos < 85) {
-    color1=strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+    color1 = strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
     return color1;
   } else if(WheelPos < 170) {
     WheelPos -= 85;
-    color2= strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
-    return color2;
   } else {
+    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
     WheelPos -= 170;
-    color3=strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
-    return color3;
+    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
   }
 }
-void left(){
-  color1=strip.Color(0, 0, 255);
-  strip.setPixelColor(0, color1 & 255);
+void left(uint8_t wait){
+  uint16_t j, k, l;
+  j=0;
+  k=128;
+  l=0;
+    
+  strip.setPixelColor(91, j, k, l);
+  strip.setPixelColor(110, j, k, l);
+  strip.setPixelColor(125, j, k, l);
+    
   strip.show();
   delay(wait);
-  delay(1000);
+    
+  strip.setPixelColor(91, j, 0, l);
+  strip.setPixelColor(110, j, 0, l);
+  strip.setPixelColor(125, j, 0, l);
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(96, j, k, l);
+  strip.setPixelColor(86, j, k, l);
+  strip.setPixelColor(107, j, k, l);
+  strip.setPixelColor(113, j, k, l);
+  strip.setPixelColor(125, j, k, l);
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(96, j, 0, l);
+  strip.setPixelColor(86, j, 0, l);
+  strip.setPixelColor(107, j, 0, l);
+  strip.setPixelColor(113, j, 0, l);
+  strip.setPixelColor(125, j, 0, l);
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(100, j, k, l);
+  strip.setPixelColor(81, j, k, l);
+  strip.setPixelColor(105, j, k, l);
+  strip.setPixelColor(114, j, k, l);
+  strip.setPixelColor(125, j, k, l);
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(100, j, 0, l);
+  strip.setPixelColor(81, j, 0, l);
+  strip.setPixelColor(105, j, 0, l);
+  strip.setPixelColor(114, j, 0, l);
+  strip.setPixelColor(125, j, 0, l);
+    
+  strip.show();
+  delay(wait);
 }
-void right(){
-  color2=strip.Color(0, 255, 0);
-  strip.setPixelColor(0, color2 & 255);
+int right(uint8_t wait){
+  uint16_t j; j=0;
+  uint16_t k; k=128;
+  uint16_t l; l=0;
+    
+  strip.setPixelColor(6, j, k, l);
+  strip.setPixelColor(41, j, k, l);
+  strip.setPixelColor(22, j, k, l);
+    
+  points(0,R1);
+  color1=point[0];
+    
   strip.show();
   delay(wait);
-  delay(1000);
+    
+  strip.setPixelColor(41, 0, 0, 0);
+  strip.setPixelColor(22, 0, 0, 0);
+    
+  points(0,(R1+R2));
+  color1=point[0];
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(45, j, k, l);
+  strip.setPixelColor(35, j, k, l);
+  strip.setPixelColor(20, j, k, l);
+  strip.setPixelColor(24, j, k, l);
+  strip.setPixelColor(6, j, k, l);
+    
+  points(0,(R1+R2+R3));
+  color1=point[0];
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(45, 0, 0, 0);
+  strip.setPixelColor(35, 0, 0, 0);
+  strip.setPixelColor(20, 0, 0, 0);
+  strip.setPixelColor(24, 0, 0, 0);
+    
+  points(0,(R1+R2+R3+MR));
+  color1=point[0];
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(50, j, k, l);
+  strip.setPixelColor(31, j, k, l);
+  strip.setPixelColor(17, j, k, l);
+  strip.setPixelColor(26, j, k, l);
+  strip.setPixelColor(6, j, k, l);
+    
+  points(0,(R1+R2+R3+MR+ML));
+  color1=point[0];
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(50, 0, 0, 0);
+  strip.setPixelColor(31, 0, 0, 0);
+  strip.setPixelColor(17, 0, 0, 0);
+  strip.setPixelColor(26, 0, 0, 0);
+  strip.setPixelColor(6, 0, 0, 0);
+    
+  points(0,(R1+R2+R3+MR+ML+L1));
+  color1=point[0];
+    
+  strip.show();
+  delay(wait);
+    
+  return color1;
 }
-void reg(){
-  color3=strip.Color(255, 0, 0);
-  strip.setPixelColor(0, color3 & 255);
+void r(uint8_t wait){
+  uint16_t j; j=0;
+  uint16_t k; k=128;
+  uint16_t l; l=0;
+    
+  points(0,R1);
+  strip.setPixelColor(point[3], j, k, l);
+    
+  points(0+R1,R2);
+  strip.setPixelColor(point[3], j, k, l);
+    
+  points(0+R1+R2,R3);
+  strip.setPixelColor(point[3], j, k, l);
+    
   strip.show();
   delay(wait);
-  delay(1000);
+    
+  points(0+R1,R2);
+  strip.setPixelColor(point[3], j, 0, l);
+    
+  points(0+R1+R2,R3);
+  strip.setPixelColor(point[3], j, 0, l);
+    
+  strip.show();
+  delay(wait);
+    
+  points(0,R1);
+  strip.setPixelColor(point[3], j, k, l);
+    
+  points(0+R1,R2);
+  strip.setPixelColor(point[2], j, k, l);
+  strip.setPixelColor(point[4], j, k, l);
+    
+  points(0+R1+R2,R3);
+  strip.setPixelColor(point[5], j, k, l);
+  strip.setPixelColor(point[1], j, k, l);
+    
+  strip.show();
+  delay(wait);
+    
+  points(0,R1);
+  strip.setPixelColor(point[3], j, 0, l);
+    
+  points(0+R1,R2);
+  strip.setPixelColor(point[2], j, 0, l);
+  strip.setPixelColor(point[4], j, 0, l);
+    
+  points(0+R1+R2,R3);
+  strip.setPixelColor(point[5], j, 0, l);
+  strip.setPixelColor(point[1], j, 0, l);
+    
+  strip.show();
+  delay(wait);
+    
+  points(0,R1);
+  strip.setPixelColor(point[3], j, k, l);
+    
+  points(0+R1,R2);
+  strip.setPixelColor(point[5], j, k, l);
+  strip.setPixelColor(point[1], j, k, l);
+    
+  points(0+R1+R2,R3);
+  strip.setPixelColor(point[6], j, k, l);
+  strip.setPixelColor(point[0], j, k, l);
+    
+  strip.show();
+  delay(wait);
+    
+  points(0,R1);
+  strip.setPixelColor(point[3], j, 0, l);
+    
+  points(0+R1,R2);
+  strip.setPixelColor(point[5], j, 0, l);
+  strip.setPixelColor(point[1], j, 0, l);
+    
+  points(0+R1+R2,R3);
+  strip.setPixelColor(point[6], j, 0, l);
+  strip.setPixelColor(point[0], j, 0, l);
+    
+  strip.show();
+  delay(wait);
 }
-void stop(){
-  color4=strip.Color(255, 255, 255);
-  strip.setPixelColor(0, color4 & 255);
+void stop(uint8_t wait){
+  uint16_t j;
+  j=255;
+    
+  strip.setPixelColor(51, j, 0, 0);
+  strip.setPixelColor(80, j, 0, 0);
+    
   strip.show();
   delay(wait);
-  delay(1000);
+    
+  strip.setPixelColor(55, j, 0, 0);
+  strip.setPixelColor(78, j, 0, 0);
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(59, j, 0, 0);
+  strip.setPixelColor(76, j, 0, 0);
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(62, j, 0, 0);
+  strip.setPixelColor(73, j, 0, 0);
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(66, j, 0, 0);
+  strip.setPixelColor(65, j, 0, 0);
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(51, 0, 0, 0);
+  strip.setPixelColor(80, 0, 0, 0);
+  strip.setPixelColor(55, 0, 0, 0);
+  strip.setPixelColor(78, 0, 0, 0);
+  strip.setPixelColor(59, 0, 0, 0);
+  strip.setPixelColor(76, 0, 0, 0);
+  strip.setPixelColor(62, 0, 0, 0);
+  strip.setPixelColor(73, 0, 0, 0);
+  strip.setPixelColor(66, 0, 0, 0);
+  strip.setPixelColor(65, 0, 0, 0);
+    
+  strip.show();
+  delay(wait);
+}
+void reg(uint8_t wait){
+  uint16_t j;
+  j=255;
+    
+  strip.setPixelColor(59, j, 0, 0);
+  strip.setPixelColor(76, j, 0, 0);
+  strip.setPixelColor(62, j, 0, 0);
+  strip.setPixelColor(73, j, 0, 0);
+    
+  strip.show();
+  delay(wait);
+    
+  strip.setPixelColor(59, 0, 0, 0);
+  strip.setPixelColor(76, 0, 0, 0);
+  strip.setPixelColor(62, 0, 0, 0);
+  strip.setPixelColor(73, 0, 0, 0);
+    
+  strip.show();
+  delay(wait);
 }
