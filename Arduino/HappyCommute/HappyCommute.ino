@@ -2,9 +2,17 @@
 #include <SoftwareSerial.h>
 
 #define DATA_PIN 6
-#define NUM_LEDS 3
 #define NUM_COLORS 6
+
+//--------------------------------------------------------------------------------------------------------------------
+// I would suggest only playing with the settings in this section, and only if necessary.
+
+// Duration between the updating of the LEDs
 #define INTERVAL 25
+
+// The might need to be changed I think there were 16 for both headphones
+// it shouldn't matter if there are less than 16 actually connected though
+#define NUM_LEDS 16
 
 // Here's where you set the interval between color changes while in
 // demo mode (in milliseconds). Make sure demoMode bool is also set true.
@@ -14,8 +22,13 @@
 const bool demoMode = true;
 const int numDemoColors = 6;
 const int demoColors[numDemoColors][3] = {{0,255,255},{255,102,153},{51,204,51},{255,204,0},{0,0,204},{153,51,255}};
+
+// Step size to use for the transition between colors (smaller number gives higher resolution but also slower transitions)
+int colorShiftAmount=2;
+// Same deal as above but this handles the regular pulsing of the color
+int fadeAmount = 2;
 // 
-//
+//--------------------------------------------------------------------------------------------------------------------
 
 SoftwareSerial mySerial(2, 3); // RX, TX
 
@@ -23,10 +36,8 @@ byte colors[NUM_COLORS];
 int colors_index=0;
 int currentRGB[3]={0,0,0};
 int newRGB[3]={0,0,0};
-int colorShiftAmount=2;
 bool differentColors[3]={false, false, false};
 long nextUpdate = 0;
-int fadeAmount = 2;  // Set the amount to fade I usually do 5, 10, 15, 20, 25 etc even up to 255.
 int dimmer = 200;
 CRGB leds[NUM_LEDS];
 long demoUpdate = 0;
