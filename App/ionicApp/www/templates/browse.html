@@ -1,0 +1,36 @@
+<ion-view view-title="Custom Mood">
+  <ion-content class="slidebg" scroll="false">
+
+	  <ion-item class="color picker mood" type="item-text-wrap">
+		  <div class="item color picker range range-assertive">
+			  <i class="icon ion-ios7-sunny-outline"></i>
+			  <input type="range" name="volume" min="0" max="255" ng-model="rgb.r">
+			  <i class="icon ion-ios7-sunny"></i>
+		  </div>
+	  </ion-item>
+	  <ion-item class="color picker mood" type="item-text-wrap">
+		  <div class="item color picker range range-balanced">
+			  <i class="icon ion-ios7-sunny-outline"></i>
+			  <input type="range" name="volume" min="0" max="255" ng-model="rgb.g">
+			  <i class="icon ion-ios7-sunny"></i>
+		  </div>
+	  </ion-item>
+	  <ion-item class="color picker mood" type="item-text-wrap">
+		  <div class="item color picker range range-positive">
+			  <i class="icon ion-ios7-sunny-outline"></i>
+			  <input type="range" name="volume" min="0" max="255rgb" ng-model="rgb.b">
+			  <i class="icon ion-ios7-sunny"></i>
+		  </div>
+	  </ion-item>
+	  <ion-item class="mood">
+		  <colorviewer r="rgb.r" g="rgb.g" b="rgb.b">
+
+		  </colorviewer>
+	  </ion-item>
+	  <ion-item class="mood">
+		  <button class="button button-full button-positive" ng-click="saveRGB()">
+			  Set Color
+		  </button>
+	  </ion-item>
+  </ion-content>
+</ion-view>

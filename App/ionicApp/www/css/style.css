@@ -1,0 +1,23 @@
+/* Empty. Add your own CSS if you like */
+ion-item.color.picker {
+    background-color: transparent;
+    border:none;
+
+}
+
+.item.color.picker {
+    background-color: transparent;
+    border:none;
+
+}
+
+.item.mood{
+    background-color: transparent;
+    color:#ffffff;
+}
+colorviewer {
+    display: block;
+    width: 100%;
+    height: 40px;
+    background-color: #009689 ;
+}
