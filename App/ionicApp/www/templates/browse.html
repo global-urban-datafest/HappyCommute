@@ -18,7 +18,7 @@
 	  <ion-item class="color picker mood" type="item-text-wrap">
 		  <div class="item color picker range range-positive">
 			  <i class="icon ion-ios7-sunny-outline"></i>
-			  <input type="range" name="volume" min="0" max="255rgb" ng-model="rgb.b">
+			  <input type="range" name="volume" min="0" max="255" ng-model="rgb.b">
 			  <i class="icon ion-ios7-sunny"></i>
 		  </div>
 	  </ion-item>
@@ -28,9 +28,12 @@
 		  </colorviewer>
 	  </ion-item>
 	  <ion-item class="mood">
-		  <button class="button button-full button-positive" ng-click="saveRGB()">
+		  <button class="button button-full button-positive" ng-click="sendMessage()">
 			  Set Color
 		  </button>
+	  </ion-item>
+	  <ion-item>
+		  <div id="consoleColor"></div>
 	  </ion-item>
   </ion-content>
 </ion-view>

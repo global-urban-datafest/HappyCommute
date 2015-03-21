@@ -1,5 +1,24 @@
 <ion-view view-title="Settings">
 	<ion-content >
+		<ion-item class="mood">
+			<button class="button button-full button-positive" ng-click="getDevices()">
+				Get Devices
+			</button>
+		</ion-item>
+		<ion-item ng-repeat="device in devices">
+		<div class="row" id="device_{{device.id}}}}">
+			<div class="col col-40">{{device.name}}</div>
+			<div class="col col-40">{{device.address}}</div>
+			<div class="col col-20">
+				<button class="button button-full button-positive" ng-click="saveAddress(device.address)">
+					I.O.
+				</button>
+			</div>
+		</div>
 
+		</ion-item>
+		<ion-item>
+			<div id="console"></div>
+		</ion-item>
 	</ion-content>
 </ion-view>
