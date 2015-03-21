@@ -1,4 +1,4 @@
-angular.module('starter.directives', [])
+angular.module('HC.directives', [])
 	.directive('colorviewer', function ($rootScope) {
 		return {
 			scope:{
