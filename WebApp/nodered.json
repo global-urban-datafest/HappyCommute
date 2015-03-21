@@ -1,0 +1,7 @@
+[{"id":"dc8b20fd.1cc3e8","type":"mqtt-broker","broker":"iot.eclipse.org","port":"1883","clientid":""},{"id":"472f69b0.9b62c8","type":"mqtt 
+in","name":"","topic":"/martingreg","broker":"dc8b20fd.1cc3e8","x":89,"y":27,"z":"f0af3643.604ff","wires":[["1d667205.9c9d06"]]},{"id":"1d667205.9c9d06","type":"debug","name":"","active":true,"console":"false","complete":"false","x":255,"y":29,"z":"f0af3643.604ff","wires":[]},{"id":"6030a7b4.03e06","type":"mqtt 
+out","name":"mqtt 
+out","topic":"/martingreg","qos":"0","retain":"","broker":"dc8b20fd.1cc3e8","x":405,"y":78,"z":"f0af3643.604ff","wires":[]},{"id":"fbaea10.6d4e2e","type":"debug","name":"","active":true,"console":"false","complete":"false","x":428,"y":135,"z":"f0af3643.604ff","wires":[]},{"id":"eae01c15.1e7fc8","type":"http 
+in","name":"","url":"/color","method":"post","x":125,"y":219,"z":"f0af3643.604ff","wires":[["287ca662.8f10ba","8d177d5d.c05d1"]]},{"id":"287ca662.8f10ba","type":"http 
+response","name":"","x":328,"y":286,"z":"f0af3643.604ff","wires":[]},{"id":"8d177d5d.c05d1","type":"function","name":"","func":"return 
+msg.payload;","outputs":1,"x":303,"y":195,"z":"f0af3643.604ff","wires":[["517e3927.dd5108"]]},{"id":"ec512232.f307","type":"inject","name":"","topic":"","payload":"F000F0FFF;","payloadType":"string","repeat":"5","crontab":"","once":false,"x":114,"y":86,"z":"f0af3643.604ff","wires":[["6030a7b4.03e06","fbaea10.6d4e2e"]]},{"id":"517e3927.dd5108","type":"debug","name":"","active":true,"console":"false","complete":"false","x":446,"y":207,"z":"f0af3643.604ff","wires":[]}]
