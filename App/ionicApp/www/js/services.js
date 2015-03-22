@@ -87,24 +87,22 @@ angular.module('HC.services', [])
 		console.log('publish-Event received '+ message + ' with topic: ' + topic);
 		var address = bluetooth.getAddress();
 
-		bluetooth.connect(address).then(function(){
-			//var c = $scope.rgb;
-			/*var hexcolor = colorFactory.rgbToHex(c.r, c.g, c.b);
-			log('Color: '+hexcolor, 'consoleColor');
-			//Socket.publish(hexcolor);*/
-			bluetooth.sendMessage(message).then(function(res){
-				log(res, 'consoleColor');
-				bluetooth.disconnect().then(function(res){
+		if(address){
+			bluetooth.connect(address).then(function(){
+				bluetooth.sendMessage(message).then(function(res){
 					log(res, 'consoleColor');
-				}, function(error){
-					log('disconnect ERROR:'+error, 'consoleColor');
-				})
-			},function(error){
-				log('sendMessage ERROR:'+error, 'consoleColor');
+					bluetooth.disconnect().then(function(res){
+						log(res, 'consoleColor');
+					}, function(error){
+						log('disconnect ERROR:'+error, 'consoleColor');
+					})
+				},function(error){
+					log('sendMessage ERROR:'+error, 'consoleColor');
+				});
+			}, function(error){
+				log('connect ERROR:'+error, 'consoleColor');
 			});
-		}, function(error){
-			log('connect ERROR:'+error, 'consoleColor');
-		});
+		}
 
 	};
 	return service;
