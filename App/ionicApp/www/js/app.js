@@ -75,7 +75,7 @@ angular.module('HappyCommute', ['ionic', 'HC.directives', 'HC.controllers', 'HC.
       views: {
         'menuContent': {
           templateUrl: "templates/loading.html",
-          controller: 'PlaylistsCtrl'
+          controller: 'MqttCtrl'
         }
       }
     })

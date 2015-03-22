@@ -56,7 +56,7 @@ angular.module('HC.services', [])
 	};
 })
 
-.factory('Socket', function($rootScope) {
+.factory('Socket', function($rootScope, bluetooth, colorFactory) {
 	var service = {};
 	var client = {};
 	var topic = "testtopic";
@@ -85,7 +85,28 @@ angular.module('HC.services', [])
 
 	service.onMessage = function(topic, message) {
 		console.log('publish-Event received '+ message + ' with topic: ' + topic);
-	}
+		var address = bluetooth.getAddress();
+
+		bluetooth.connect(address).then(function(){
+			//var c = $scope.rgb;
+			/*var hexcolor = colorFactory.rgbToHex(c.r, c.g, c.b);
+			log('Color: '+hexcolor, 'consoleColor');
+			//Socket.publish(hexcolor);*/
+			bluetooth.sendMessage(message).then(function(res){
+				log(res, 'consoleColor');
+				bluetooth.disconnect().then(function(res){
+					log(res, 'consoleColor');
+				}, function(error){
+					log('disconnect ERROR:'+error, 'consoleColor');
+				})
+			},function(error){
+				log('sendMessage ERROR:'+error, 'consoleColor');
+			});
+		}, function(error){
+			log('connect ERROR:'+error, 'consoleColor');
+		});
+
+	};
 	return service;
 });
 
