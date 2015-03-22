@@ -75,10 +75,35 @@ angular.module('HC.controllers', ['HC.services'])
 
 
 })
+
+.controller('MqttCtrl', function($scope, $state, $rootScope, Socket) {
+
+  $scope.devices = {};
+
+  $rootScope.connect = function () {
+  	var host = "broker.mqttdashboard.com";
+	var port = "8000";
+	var user = "testtopic";
+	var password = "";
+	console.log('Connecting to broker');
+	Socket.connect(host,port,user,password);
+	};
+
+  sendColor = function (color) {
+    console.log('changed: ' + color);
+    Socket.publish(device.topic + '/set', color);
+  };
+
+  Socket.onMessage(function(topic, payload) {
+    console.log('incoming topic: ' + topic + ' and payload: ' + payload);
+  });
+
+})
+
 /*
 .controller('PlaylistCtrl', function($scope, $stateParams, colorFactory) {
 })*/
-	.controller('ColorCtrl', function($scope, colorFactory, bluetooth){
+	.controller('ColorCtrl', function($scope, colorFactory, bluetooth, Socket){
 		$scope.rgb = {r:125,g:125,b:125};
 		$scope.$watch('$scope.rgb', function(){
 			console.dir($scope.rgb);
@@ -95,6 +120,10 @@ angular.module('HC.controllers', ['HC.services'])
 				var c = $scope.rgb;
 				var hexcolor = colorFactory.rgbToHex(c.r, c.g, c.b);
 				log('Color: '+hexcolor, 'consoleColor');
+
+  				
+				Socket.publish(hexcolor);
+
 				bluetooth.sendMessage(hexcolor).then(function(res){
 					log(res, 'consoleColor');
 					bluetooth.disconnect().then(function(res){

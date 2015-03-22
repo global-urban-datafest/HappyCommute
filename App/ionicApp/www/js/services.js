@@ -54,5 +54,38 @@ angular.module('HC.services', [])
 
 		}
 	};
+})
+
+.factory('Socket', function($rootScope) {
+	var service = {};
+	var client = {};
+	var topic = "testtopic";
+
+	service.connect = function(host, port, user, password) {
+		var options = {
+			username: user,
+			password: password
+		};
+		console.log("Try to connect to MQTT Broker " + host + " with user " + user);
+		client = mqtt.createClient(parseInt(port),host,options);
+		client.subscribe(topic+"/#");
+		client.on('error', function(err) {
+			console.log('error!', err);
+			client.stream.end();
+		});
+		client.on('message', function (topic, message) {
+			service.onMessage(topic, message);
+		});
+	}
+
+	service.publish = function(payload) {
+		client.publish(topic,payload, {retain: true});
+		console.log('publish-Event sent '+ payload + ' with topic: ' + topic + ' ' + client);
+	}
+
+	service.onMessage = function(topic, message) {
+		console.log('publish-Event received '+ message + ' with topic: ' + topic);
+	}
+	return service;
 });
 

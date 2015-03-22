@@ -91,4 +91,12 @@ angular.module('HappyCommute', ['ionic', 'HC.directives', 'HC.controllers', 'HC.
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/custommood');
+})
+
+.run(function($rootScope, $state, Socket) {
+  var host = "broker.mqttdashboard.com";
+  var port = "8000";
+  var user = "";
+  var password = "";
+  $rootScope.myMqqtClient = Socket.connect(host,port,user,password);
 });

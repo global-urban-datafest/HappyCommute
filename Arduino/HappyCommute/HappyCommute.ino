@@ -19,7 +19,7 @@
 // If you wanna change the colors in the sequence, that can be done by
 // changing the RGB values in demoColors
 #define DEMO_INTERVAL 15000
-const bool demoMode = true;
+const bool demoMode = false;
 const int numDemoColors = 6;
 const int demoColors[numDemoColors][3] = {{0,255,255},{255,102,153},{51,204,51},{255,204,0},{0,0,204},{153,51,255}};
 
