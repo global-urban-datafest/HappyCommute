@@ -7,7 +7,12 @@ function log(msg, id){
 
 angular.module('HC.controllers', ['HC.services'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($rootScope, $scope, $ionicModal, $timeout, bluetooth) {
+		$scope.devicesaved = bluetooth.getAddress();
+		$rootScope.$on('blueToothDevice.address.saved', function(){
+			$scope.devicesaved = bluetooth.getAddress();
+			console.log('EVENT: blueToothDevice.address.saved RECIEVED');
+		});
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -40,11 +45,12 @@ angular.module('HC.controllers', ['HC.services'])
   };
 })
 
-.controller('SettingsCtrl', function($scope, bluetooth) {
+.controller('SettingsCtrl', function($rootScope, $scope, bluetooth) {
 
 
 
 		$scope.devices = [];
+		$scope.currentDevice = bluetooth.getAddress();
 		$scope.getDevices = function(){
 			bluetooth.list().then(function(devices){
 				$scope.devices = devices;
@@ -57,8 +63,13 @@ angular.module('HC.controllers', ['HC.services'])
 				log('Saving device: '+address, 'console');
 				bluetooth.setAddress(address);
 				log('Saved device: '+address, 'console');
-
+				$rootScope.$broadcast('blueToothDevice.address.saved', function() {console.log('address Save Broadcasted')});
+				$scope.currentDevice = bluetooth.getAddress();
 			};
+		$scope.$on('$ionicView.enter', function(){
+			$scope.currentDevice = bluetooth.getAddress();
+			console.log('currentDevice', $scope.currentDevice);
+		})
 
 
 
@@ -100,45 +111,29 @@ angular.module('HC.controllers', ['HC.services'])
 		}
 	})
 	.factory('colorFactory', function($q, $http, $rootScope){
-
+		// source: http://www.sepiariver.ca/blog/modx-web/rgb-to-hex-color-converter-javascript/
 		function toHex(r,g, b){
-			log('r: '+ r, 'consoleColor');
-			log('g: '+ r, 'consoleColor');
-			log('b: '+ r, 'consoleColor');
-			$rootScope.$apply();
 			var hex = []; //initialize hex variable
 			var rgbValues = [r,g,b];
 			for (i=0;i<rgbValues.length;i+=1) {
 				var
 					y = rgbValues[i],
-					h1 = Math.floor(y/16), //Use Math and modulus to get two integers...
+					h1 = Math.floor(y/16),
 					h2 = y%16,
-					hexChar = "0123456789ABCDEF"; //...which can be used as character indices of a string that contains all the valid Hex characters. We only have to define the Hex characters once.
-				hex[i] = hexChar[h1] + hexChar[h2]; //Combine the 2 characters
+					hexChar = "0123456789ABCDEF";
+				hex[i] = hexChar[h1] + hexChar[h2];
 			}
 
 			hex = hex.join(''); //get rid of commas
-			return ";" + hex; //return CSS-formatted hex string
+			return ";" + hex; // ; for bluetooth serial spacer
 
 		}
 
-		/*function componentToHex(c) {
-			var hex = c.toString(16).toUpperCase();
-			return hex.length == 1 ? "0" + hex : hex;
-		};
-
-		function rgbToHex(r, g, b) {
-			return componentToHex(r) + componentToHex(g) + componentToHex(b);
-		};*/
-		function rgbToHex(r, g, b) {
-			return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-		}
 		return {
 			save: function(color){
-				console.log('color', color);
 				var deferred = $q.defer();
-				var hex = rgbToHex(color.r, color.g, color.b);
-				console.log('hex', hex);
+				var hex = toHex(color.r, color.g, color.b);
+
 					var obj = {};
 				obj.color = hex;
 				$http({

@@ -8,11 +8,32 @@ angular.module('HappyCommute', ['ionic', 'HC.directives', 'HC.controllers', 'HC.
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
-	  console.dir(cordova);
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+
+	  // For Dev
+    if (!window.cordova) {
+      window.cordova = {
+	      require: function(plugin){
+
+		      if(plugin === 'com.megster.cordova.bluetoothserial.bluetoothSerial'){
+			      return {
+				      connect: function(id, onSuccess, onError){
+					      onSuccess('ok');
+				      },
+				      disconnect: function(onSuccess, onError){
+					      onSuccess('disconnect');
+				      },
+				      sendMessage: function(message, onSuccess, onError){
+					      onSuccess('ok');
+				      },
+				      list: function(onSuccess, onError){
+					      onSuccess([{id:'123', name:'Device1', address:'1:2:3:4'},
+						      {id:'ABC', name:'Device2', address:'A:B:C:D'}])
+				      }
+			      }
+		      }
+
+	      }
+      }
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
@@ -58,6 +79,7 @@ angular.module('HappyCommute', ['ionic', 'HC.directives', 'HC.controllers', 'HC.
         }
       }
     })
+
   .state('app.settings', {
     url: "/settings",
     views: {

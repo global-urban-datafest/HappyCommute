@@ -7,11 +7,18 @@
 		</ion-item>
 		<ion-item ng-repeat="device in devices">
 		<div class="row" id="device_{{device.id}}}}">
-			<div class="col col-40">{{device.name}}</div>
-			<div class="col col-40">{{device.address}}</div>
+			<div class="col col-80">
+				<div class="row">
+					<div class="col device info">{{device.name}}</div>
+
+				     </div>
+				<div class="row">
+					<div class="col device address">{{device.address}}</div>
+				</div>
+			</div>
+
 			<div class="col col-20">
-				<button class="button button-full button-positive" ng-click="saveAddress(device.address)">
-					I.O.
+				<button class="button button-full button-positive ion-bluetooth" ng-disabled="currentDevice == device.address" ng-click="saveAddress(device.address)">
 				</button>
 			</div>
 		</div>

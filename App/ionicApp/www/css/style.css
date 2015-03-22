@@ -21,3 +21,28 @@ colorviewer {
     height: 40px;
     background-color: #009689 ;
 }
+
+div.showBluetooth {
+    display:block;
+}
+
+div.hideBluetooth {
+    display:none;
+}
+.col.device.info {
+    text-align: left;
+
+}
+.col.device.address {
+    text-align: left;
+
+}
+.view{
+    background: #174790;
+   /* background: -moz-radial-gradient(center, ellipse cover, #2e599b 0%, #123873 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #2e599b), color-stop(100%, #123873));
+    background: -webkit-radial-gradient(center, ellipse cover, #2e599b 0%, #123873 100%);
+    background: -o-radial-gradient(center, ellipse cover, #2e599b 0%, #123873 100%);
+    background: -ms-radial-gradient(center, ellipse cover, #2e599b 0%, #123873 100%);*/
+    background: radial-gradient(ellipse at center, #2e599b 0%, #123873 100%);
+}
