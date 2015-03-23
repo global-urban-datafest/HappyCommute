@@ -6,3 +6,5 @@ platforms/
 plugins/
 .idea/
 .DS_Store
+www/lib/ionic
+www/lib/angula*
